@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
-import argparse
 
 import stem
 import socket
 import hashlib
 import asyncio
 import aiohttp
+import argparse
 
 from email.parser import HeaderParser
 from urllib.parse import urlparse
@@ -380,20 +380,18 @@ def parse_args() -> argparse.Namespace:
 
 def validate_args(url: str, chunk_size: int, max_connections: int, output_dest: Path | None) -> None:
     """Performs sanity checks on the provided arguments."""
-    # Check URL scheme.
+
     parsed_url = urlparse(url)
+
     if parsed_url.scheme not in ("http", "https"):
         raise ValueError("URL must start with 'http://' or 'https://'.")
 
-    # Check that chunk size is positive.
     if chunk_size <= 0:
         raise ValueError("Chunk size must be a positive number.")
 
-    # Check that max connections is positive.
     if max_connections <= 0:
         raise ValueError("Max connections must be a positive integer.")
 
-    # Ensure the output file's parent directory exists (if output is provided).
     if output_dest:
         if output_dest.is_dir():
             pass
